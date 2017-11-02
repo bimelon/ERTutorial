@@ -7,6 +7,27 @@ import {
    StyleSheet,
 } from 'react-native';
 
+function BookWords(YL){
+	switch (YL) {
+		case 0.4:
+			return 18;
+			break;
+		case 0.8:
+			return 85;
+			break;
+		case 1.2:
+			return 104;
+			break;
+		case 1.6:
+			return 429;
+			break;
+		case 2.0:
+			return 156;
+			break;
+		default:
+
+	}
+}
 
 class  ScoreScreen extends React.Component {
 
@@ -14,7 +35,8 @@ class  ScoreScreen extends React.Component {
 		super(props);
 		const	{params}	=	this.props.navigation.state;
 		const {navigate} = this.props.navigation;
-		this.state = {difficult:true,evalution:[true,true,true,true]};
+		this.state = {modalVisible:true};
+		this.state = {eval0:true,eval1:true,eval2:true,eval3:true,reedTime:(new Date() - this.props.screenProps.starttime)};
 	}
 
 	static navigationOptions = {
@@ -23,24 +45,30 @@ class  ScoreScreen extends React.Component {
 		gestureEnable:false,
    };
 
-	_goNext = () => {
+	_setDifficult = (value) => {
+		console.log(value);
+		this.setState({dif: value});
+			console.log(this.state.dif);
+	}
+
+	_goNext = (difficult) => {
 		const	{params}	=	this.props.navigation.state;
 		const {navigate} = this.props.navigation;
-      const reedTime = new Date() - this.props.screenProps.starttime;
+
 		switch(params.yl){
 			case 0.4:
 				navigate('Result',{yl:params.yl});
 			break;
 			case 0.8:
-				if(this.state.difficult) navigate('Book',{yl:(params.yl*10 - 0.4*10)/10});
+				if(difficult) navigate('Book',{yl:(params.yl*10 - 0.4*10)/10});
 				else 	navigate('Result',{yl:params.yl});
 			break;
 			case 1.2:
-				if(this.state.difficult) navigate('Book',{yl:(params.yl*10 - 0.4*10)/10});
+				if(difficult) navigate('Book',{yl:(params.yl*10 - 0.4*10)/10});
 				else navigate('Book',{yl:(params.yl*10 + 0.4*10)/10});
 			break;
 			case 1.6:
-				if(this.state.difficult) navigate('Result',{yl:(params.yl*10 - 0.4*10)/10});
+				if(difficult) navigate('Result',{yl:(params.yl*10 - 0.4*10)/10});
 				else navigate('Book',{yl:(params.yl*10 + 0.4*10)/10});
 			break;
 			case 2.0:
@@ -49,12 +77,34 @@ class  ScoreScreen extends React.Component {
 		}
 	}
 
+	setModalVisible(visible) {
+	    this.setState({modalVisible: visible});
+	 }
+
 	render() {
 		const	{params}	=	this.props.navigation.state;
       const {navigate}=	this.props.navigation;
+
       return (
          <View style={styles.underView}>
-            <Text style={styles.topText}>おつかれさまでした! {reedTime/1000}s</Text>
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={this.state.modalVisible}
+				onRequestClose={() => {alert("Modal has been closed.")}}
+			>
+				<View style={{marginTop: 22}}>
+ 					<View>
+         			<Text>Hello World!</Text>
+		            <TouchableHighlight onPress={() => {
+              		this.setModalVisible(!this.state.modalVisible)
+            		}}>
+            			<Text>Hide Modal</Text>
+         			</TouchableHighlight>
+					</View>
+         	</View>
+        	</Modal>
+            <Text style={styles.topText}>おつかれさまでした! {this.state.reedTime/1000}s</Text>
             <View style={styles.bodyView}>
                <Text style={styles.HeadText}>How did you like it?</Text>
                <Text style={styles.detailText}>{'\ '}今回の本はどうでしたか？</Text>
@@ -66,44 +116,44 @@ class  ScoreScreen extends React.Component {
                <View style={styles.switchView}>
                   <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
 					   <Switch
-                     onValueChange={(value) => this.setState({evalution[0]: value})}
+                     onValueChange={(value) => this.setState({eval0: value})}
                      style={{marginBottom: 10}}
-                     value={this.state.difficult}
+                     value={this.state.eval0}
                   />
                </View>
                <View style={styles.switchView}>
                   <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
 					   <Switch
-                     onValueChange={(value) => this.setState({evalution[1]: value})}
+                     onValueChange={(value) => this.setState({eval1: value})}
                      style={{marginBottom: 10}}
-                     value={this.state.difficult}
+                     value={this.state.eval1}
                   />
                </View>
                <View style={styles.switchView}>
                   <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
 					   <Switch
-                     onValueChange={(value) => this.setState({evalution[2]: value})}
+                     onValueChange={(value) => this.setState({eval2: value})}
                      style={{marginBottom: 10}}
-                     value={this.state.difficult}
+                     value={this.state.eval2}
                   />
                </View>
                <View style={styles.switchView}>
                   <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
 					   <Switch
-                     onValueChange={(value) => this.setState({evalution[3]: value})}
+                     onValueChange={(value) => this.setState({eval3: value})}
                      style={{marginBottom: 10}}
-                     value={this.state.difficult}
+                     value={this.state.eval3}
                   />
                </View>
                <View style={styles.nextButtonView}>
                   <Button
                      onPress={()=>{
-                        const {evalution}=this.state;
-                        if(Math.min.evalution<1){
-                           this.setState({difficult:false});
-                        }
-                        this.props.screenProps.setTime();
-                        this._goNext();
+								console.log(this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3);
+                        if((this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3) < 4){
+                           this._goNext(0);
+                        }else{
+									this._goNext(1);
+								}
                      }}
                      title="次へ"
                   />
