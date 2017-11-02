@@ -5,6 +5,8 @@ import {
    Button,
 	Switch,
    StyleSheet,
+	Modal,
+	TouchableHighlight
 } from 'react-native';
 
 function BookWords(YL){
