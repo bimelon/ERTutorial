@@ -8,7 +8,7 @@ import {
 	Modal,
 	TouchableHighlight
 } from 'react-native';
-
+/*
 function BookWords(YL){
 	switch (YL) {
 		case 0.4:
@@ -30,7 +30,7 @@ function BookWords(YL){
 
 	}
 }
-
+*/
 class  ScoreScreen extends React.Component {
 
 	constructor(props){
@@ -47,7 +47,7 @@ class  ScoreScreen extends React.Component {
 		gestureEnable:false,
    };
 
-	_setDifficult = (value) => {
+	_setDifficult = (value) => {``
 		console.log(value);
 		this.setState({dif: value});
 			console.log(this.state.dif);
@@ -79,9 +79,6 @@ class  ScoreScreen extends React.Component {
 		}
 	}
 
-	setModalVisible(visible) {
-	    this.setState({modalVisible: visible});
-	 }
 
 	render() {
 		const	{params}	=	this.props.navigation.state;
@@ -89,23 +86,6 @@ class  ScoreScreen extends React.Component {
 
       return (
          <View style={styles.underView}>
-			<Modal
-				animationType="slide"
-				transparent={false}
-				visible={this.state.modalVisible}
-				onRequestClose={() => {alert("Modal has been closed.")}}
-			>
-				<View style={{marginTop: 22}}>
- 					<View>
-         			<Text>Hello World!</Text>
-		            <TouchableHighlight onPress={() => {
-              		this.setModalVisible(!this.state.modalVisible)
-            		}}>
-            			<Text>Hide Modal</Text>
-         			</TouchableHighlight>
-					</View>
-         	</View>
-        	</Modal>
             <Text style={styles.topText}>おつかれさまでした! {this.state.reedTime/1000}s</Text>
             <View style={styles.bodyView}>
                <Text style={styles.HeadText}>How did you like it?</Text>
@@ -151,6 +131,7 @@ class  ScoreScreen extends React.Component {
                   <Button
                      onPress={()=>{
 								console.log(this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3);
+		                     this.props.screenProps.setTime();
                         if((this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3) < 4){
                            this._goNext(0);
                         }else{
