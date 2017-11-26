@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
-   Text,
-   View,
-   Button,
-	Switch,
-   StyleSheet,
-	Modal,
-	TouchableHighlight
+  Text,
+  View,
+  Button,
+  StyleSheet,
 } from 'react-native';
+
+import CheckArea from './CheckArea';
+import MTModal from './ManageTimeModal';
 /*
 function BookWords(YL){
 	switch (YL) {
@@ -31,31 +31,28 @@ function BookWords(YL){
 	}
 }
 */
-class  ScoreScreen extends React.Component {
+class  ScoreScreen extends Component {
 
 	constructor(props){
 		super(props);
 		const	{params}	=	this.props.navigation.state;
 		const {navigate} = this.props.navigation;
+		this.state = {eval:true,eval0:true,eval1:true,eval2:true,eval3:true,reedTime:(new Date() - this.props.screenProps.starttime)};
 		this.state = {modalVisible:true};
-		this.state = {eval0:true,eval1:true,eval2:true,eval3:true,reedTime:(new Date() - this.props.screenProps.starttime)};
 	}
 
 	static navigationOptions = {
 		title: 'Score',
-      headerLeft:null,
+    headerLeft:null,
 		gestureEnable:false,
-   };
+  };
 
-	_setDifficult = (value) => {``
-		console.log(value);
-		this.setState({dif: value});
-			console.log(this.state.dif);
-	}
-
-	_goNext = (difficult) => {
+	_goNext = () => {
 		const	{params}	=	this.props.navigation.state;
 		const {navigate} = this.props.navigation;
+		var difficult = this.state.eval;
+
+		this.props.screenProps.setTime();
 
 		switch(params.yl){
 			case 0.4:
@@ -79,70 +76,31 @@ class  ScoreScreen extends React.Component {
 		}
 	}
 
-
 	render() {
 		const	{params}	=	this.props.navigation.state;
-      const {navigate}=	this.props.navigation;
-
-      return (
-         <View style={styles.underView}>
-            <Text style={styles.topText}>おつかれさまでした! {this.state.reedTime/1000}s</Text>
-            <View style={styles.bodyView}>
-               <Text style={styles.HeadText}>How did you like it?</Text>
-               <Text style={styles.detailText}>{'\ '}今回の本はどうでしたか？</Text>
-               <Text style={styles.detailText}>{'\ '}下のボタンで教えてください</Text>
-               <Text style={styles.detailText}>{'\ '}簡単だったら難しい本を</Text>
-               <Text style={styles.detailText}>{'\ '}難しかったら簡単な本を</Text>
-               <Text style={styles.detailText}>{'\ '}つぎのページに用意します！</Text>
-            </View>
-               <View style={styles.switchView}>
-                  <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
-					   <Switch
-                     onValueChange={(value) => this.setState({eval0: value})}
-                     style={{marginBottom: 10}}
-                     value={this.state.eval0}
-                  />
-               </View>
-               <View style={styles.switchView}>
-                  <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
-					   <Switch
-                     onValueChange={(value) => this.setState({eval1: value})}
-                     style={{marginBottom: 10}}
-                     value={this.state.eval1}
-                  />
-               </View>
-               <View style={styles.switchView}>
-                  <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
-					   <Switch
-                     onValueChange={(value) => this.setState({eval2: value})}
-                     style={{marginBottom: 10}}
-                     value={this.state.eval2}
-                  />
-               </View>
-               <View style={styles.switchView}>
-                  <Text style={{fontSize:16,marginTop:8}}>むずかしかった？</Text>
-					   <Switch
-                     onValueChange={(value) => this.setState({eval3: value})}
-                     style={{marginBottom: 10}}
-                     value={this.state.eval3}
-                  />
-               </View>
-               <View style={styles.nextButtonView}>
-                  <Button
-                     onPress={()=>{
-								console.log(this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3);
-		                     this.props.screenProps.setTime();
-                        if((this.state.eval0+this.state.eval1+this.state.eval2+this.state.eval3) < 4){
-                           this._goNext(0);
-                        }else{
-									this._goNext(1);
-								}
-                     }}
-                     title="次へ"
-                  />
-               </View>
-            </View>
-      );
+    const {navigate}=	this.props.navigation;
+		console.log(this.state.eval);
+    return (
+       <View style={styles.underView}>
+			 		<MTModal modalVisible={this.state.modalVisible} modalSet={()=>this.setState({modalVisible:!this.state.modalVisible})}/>
+          <Text style={styles.topText}>おつかれさまでした! {this.state.reedTime/1000}s</Text>
+          <View style={styles.bodyView}>
+             <Text style={styles.HeadText}>How did you like it?</Text>
+             <Text style={styles.detailText}>{'\ '}今回の本はどうでしたか？</Text>
+             <Text style={styles.detailText}>{'\ '}下のボタンで教えてください</Text>
+             <Text style={styles.detailText}>{'\ '}簡単だったら難しい本を</Text>
+             <Text style={styles.detailText}>{'\ '}難しかったら簡単な本を</Text>
+             <Text style={styles.detailText}>{'\ '}つぎのページに用意します！</Text>
+          </View>
+					<CheckArea changeEval={(value)=>{this.setState({eval:value})}} />
+	        <View style={styles.nextButtonView}>
+	        	<Button
+	          	onPress={this._goNext}
+	          	title="次へ"
+	          	/>
+	         </View>
+        </View>
+    	);
    }
 }
 
@@ -178,7 +136,7 @@ const styles=StyleSheet.create({
       padding:20,
    },
    switchView:{
-      flexDirection: 'row',
+//      flexDirection: 'row',
       justifyContent: 'center',
       alignSelf:'center',
    },
