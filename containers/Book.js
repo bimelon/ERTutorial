@@ -3,6 +3,7 @@ import {
    Text,
    View,
    Button,
+	TouchableHighlight,
 	Image,
 } from 'react-native';
 
@@ -90,25 +91,25 @@ class  BookScreen extends React.Component {
 	render() {
 		const	{params}	=	this.props.navigation.state;
       return (
-			<View
-				style={{flex: 1, justifyContent: 'center',alignItems: 'center',}}
-				onStartShouldSetResponder={()=>{return true;}}
-				onMoveShouldSetResponder={()=>{return true;}}
-				onResponderMove={this._onMove}
-				onResponderRelease={this._onRelease}
-			>
-				<Image
-          		source={BookImag(params.yl,this.state.page)}
-          		style={{ width: 350, height: 480 }}
-				/>
-            <Button
-               onPress={this._goNext}
-               title="次へ"
-					style={{flex:1}}
-            />
-         </View>
+				<View
+					style={{flex: 1, justifyContent: 'center',alignItems: 'center',}}
+					onStartShouldSetResponder={()=>{return true;}}
+					onMoveShouldSetResponder={()=>{return true;}}
+					onResponderMove={this._onMove}
+					onResponderRelease={this._onRelease}
+					>
+					<Image
+			    		source={BookImag(params.yl,this.state.page)}
+			    		style={{ width: 350, height: 480 }}
+					/>
+            	<Button
+	               onPress={this._goNext}
+	               title="次へ"
+	            />
+				</View>
       );
    }
 }
+
 
 export default BookScreen;

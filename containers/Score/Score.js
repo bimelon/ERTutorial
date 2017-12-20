@@ -37,7 +37,7 @@ class  ScoreScreen extends Component {
 		super(props);
 		const	{params}	=	this.props.navigation.state;
 		const {navigate} = this.props.navigation;
-		this.state = {eval:true,eval0:true,eval1:true,eval2:true,eval3:true,reedTime:(new Date() - this.props.screenProps.starttime)};
+		this.state = {eval:true,reedTime:(new Date() - this.props.screenProps.starttime)};
 		this.state = {modalVisible:true};
 	}
 
@@ -78,29 +78,29 @@ class  ScoreScreen extends Component {
 
 	render() {
 		const	{params}	=	this.props.navigation.state;
-    const {navigate}=	this.props.navigation;
+		const {navigate}=	this.props.navigation;
 		console.log(this.state.eval);
-    return (
-       <View style={styles.underView}>
-			 		<MTModal modalVisible={this.state.modalVisible} modalSet={()=>this.setState({modalVisible:!this.state.modalVisible})}/>
-          <Text style={styles.topText}>おつかれさまでした! {this.state.reedTime/1000}s</Text>
-          <View style={styles.bodyView}>
-             <Text style={styles.HeadText}>How did you like it?</Text>
-             <Text style={styles.detailText}>{'\ '}今回の本はどうでしたか？</Text>
-             <Text style={styles.detailText}>{'\ '}下のボタンで教えてください</Text>
-             <Text style={styles.detailText}>{'\ '}簡単だったら難しい本を</Text>
-             <Text style={styles.detailText}>{'\ '}難しかったら簡単な本を</Text>
-             <Text style={styles.detailText}>{'\ '}つぎのページに用意します！</Text>
-          </View>
-					<CheckArea changeEval={(value)=>{this.setState({eval:value})}} />
-	        <View style={styles.nextButtonView}>
-	        	<Button
-	          	onPress={this._goNext}
-	          	title="次へ"
-	          	/>
-	         </View>
-        </View>
-    	);
+   	return (
+		<View style={styles.underView}>
+			<MTModal modalVisible={this.state.modalVisible} modalSet={()=>this.setState({modalVisible:!this.state.modalVisible})}/>
+			<Text style={styles.topText}>おつかれさまでした!</Text>
+			<View style={styles.bodyView}>
+				<Text style={styles.HeadText}>How did you like it?</Text>
+				<Text style={styles.detailText}>{'\ '}今回の本はどうでしたか？</Text>
+				<Text style={styles.detailText}>{'\ '}下のボタンで教えてください</Text>
+				<Text style={styles.detailText}>{'\ '}簡単だったら難しい本を</Text>
+				<Text style={styles.detailText}>{'\ '}難しかったら簡単な本を</Text>
+				<Text style={styles.detailText}>{'\ '}つぎのページに用意します！</Text>
+			</View>
+			<CheckArea changeEval={(value)=>{this.setState({eval:value})}} />
+			<View style={styles.nextButtonView}>
+				<Button
+				 	onPress={this._goNext}
+				 	title="次へ"
+				 	/>
+			</View>
+		</View>
+		);
    }
 }
 
@@ -108,6 +108,7 @@ class  ScoreScreen extends Component {
 const styles=StyleSheet.create({
    underView:{
       flex:1,
+		justifyContent: 'space-between',
    },
    topText:{
       alignSelf: 'center',

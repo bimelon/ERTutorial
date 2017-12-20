@@ -42,22 +42,22 @@ export default class CheckArea extends Component {
 				<CheckBox
 					onClick={()=>this._onClick(0)}
 					isChecked={this.state.eval0}
-					rightTextView={<Text>難しかった？</Text>}
+					rightTextView={<Text>わからない単語はなかった</Text>}
 					/>
 				<CheckBox
 					onClick={()=>this._onClick(1)}
 					isChecked={this.state.eval1}
-					rightTextView={<Text>難しかった？</Text>}
+					rightTextView={<Text>すらすら読めた</Text>}
 					/>
 				<CheckBox
 					onClick={()=>this._onClick(2)}
 					isChecked={this.state.eval2}
-					rightTextView={<Text>難しかった？</Text>}
+					rightTextView={<Text>日本語で考えなかった</Text>}
 					/>
 				<CheckBox
 					onClick={()=>this._onClick(3)}
 					isChecked={this.state.eval2}
-					rightTextView={<Text>難しかった？</Text>}
+					rightTextView={<Text>もっと難しくてもいい</Text>}
 					/>
 			</View>
     );
